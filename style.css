@@ -1,4 +1,23 @@
+/* variables */
+
+:root {
+    --light-blue: #BBDEFB;
+    --blue: #64B5F6;
+    --dark-blue: #2196F3;
+    --black: #111;
+    --dark-gray: #424242;
+    --light-gray: #757575;
+
+    --small-space: 0.5em;
+    --space: 1em;
+    --big-space: 1.5em;
+
+    --radius: 4px;
+}
+
+
 /* reset */
+
 *,
 *::before,
 *::after {
@@ -8,9 +27,7 @@
 body {
     margin: 0;
     padding: 0;
-
-    font: 100% / 1.5 system-ui;
-
+    font: 100% / 1.5 system-ui, sans-serif;
     display: flex;
     justify-content: center;
 }
@@ -20,45 +37,53 @@ body {
 .container {
     max-width: 80ch;
     width: 100%;
-    padding: 1em;
+    padding: var(--space);
 }
 
 /* navigation */
+
+a {
+    color: var(--blue);
+}
+
+a:hover {
+    color: var(--dark-blue);
+}
 
 nav {
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--light-gray);
 }
 
-a {
+nav a {
     width: 100%;
-    height: 100%;
-    padding: 0.4em;
+    padding: var(--small-space);
     text-decoration: none;
     color: inherit;
     text-align: center;
-    border-bottom: 0.4em solid white;
+    border-bottom: var(--small-space) solid white;
+
+    transition: all 0.3s ease, border-color 0.3s ease;
 }
 
-.active {
-    border-bottom: 0.4em solid #ccc;
+nav a:hover {
+    background: var(--light-blue);
+    border-bottom: var(--small-space) solid var(--blue);
+}
+
+nav .active {
+    border-bottom: var(--small-space) solid var(--light-gray);
     font-weight: 700;
-}
-
-a:hover {
-    background: #BBDEFB;
-    border-bottom: 0.4em solid #0078d4;
 }
 
 /* contact */
 
 form {
     display: grid;
-    grid-template-rows: auto;
-    gap: 1.5em;
+    gap: var(--big-space);
     font: inherit;
 }
 
@@ -70,20 +95,26 @@ label {
 input,
 textarea {
     width: 100%;
-    padding: 0.4em;
+    padding: var(--small-space);
     font: inherit;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius);
 }
 
 button {
-    padding: 0.6em 1.2em;
+    padding: var(--small-space) var(--big-space);
     font: inherit;
-    background-color: #0078d4;
+    background-color: var(--blue);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--radius);
     cursor: pointer;
+
+    transition: all 0.3s ease, background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--dark-blue);
 }
 
 /* projects */
@@ -91,16 +122,57 @@ button {
 .projects {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-    gap: 1em;
+    gap: var(--space);
 }
 
 .projects article {
     display: grid;
     grid-template-rows: subgrid;
     grid-row: span 3;
-    gap: 1em;
+    gap: var(--space);
 }
 
-.projects h2 {
-    margin: 0;
+/* cv */
+
+.cv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--big-space);
+}
+
+.left,
+.right {
+    flex: 1 1 100%;
+}
+
+@media (min-width: 600px) {
+    .left {
+        flex: 2 1 0;
+    }
+
+    .right {
+        flex: 3 1 0;
+    }
+}
+
+/* misc */
+
+img {
+    border-radius: var(--radius);
+}
+
+p {
+    font-size: 1em;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1em;
 }
