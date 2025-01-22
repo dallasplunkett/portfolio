@@ -2,20 +2,7 @@ console.log('IT’S ALIVE!');
 
 function $$(selector, context = document) {
     return Array.from(context.querySelectorAll(selector));
-}
-
-// Step 2
-// let navLinks = $$("nav a");
-
-// let currentLink = navLinks.find(
-//     (a) => a.host === location.host && a.pathname === location.pathname
-// );
-
-// if (currentLink) {
-//     currentLink.classList.add('current');
-// }
-
-// Step 3
+};
 
 let pages = [
     { url: '', title: 'Home' },
@@ -54,4 +41,40 @@ for (let p of pages) {
     nav.appendChild(a)
 }
 
-// workflow: create-modify-append
+document.querySelector('.container').insertAdjacentHTML(
+    'afterbegin',
+    `<label class="color-scheme">Theme:
+        <select>
+            <option value="auto">Automatic</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+    </label>`
+);
+
+let select = document.querySelector('select')
+const savedTheme = localStorage.getItem('colorScheme') || 'auto';
+
+if (savedTheme === 'light') {
+    document.documentElement.style.setProperty('color-scheme', 'light');
+} else if (savedTheme === 'dark') {
+    document.documentElement.style.setProperty('color-scheme', 'dark');
+} else {
+    document.documentElement.style.removeProperty('color-scheme');
+}
+
+select.value = savedTheme;
+
+select.addEventListener('input', function (event) {
+    const theme = event.target.value;
+
+    if (theme === 'light') {
+        document.documentElement.style.setProperty('color-scheme', 'light');
+    } else if (theme === 'dark') {
+        document.documentElement.style.setProperty('color-scheme', 'dark');
+    } else {
+        document.documentElement.style.removeProperty('color-scheme');
+    }
+
+    localStorage.setItem('colorScheme', theme);
+});
