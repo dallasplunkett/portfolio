@@ -52,7 +52,7 @@ document.querySelector('.container').insertAdjacentHTML(
     </label>`
 );
 
-let select = document.querySelector('select')
+let select = document.querySelector('select');
 const savedTheme = localStorage.getItem('colorScheme') || 'auto';
 
 if (savedTheme === 'light') {
@@ -77,4 +77,20 @@ select.addEventListener('input', function (event) {
     }
 
     localStorage.setItem('colorScheme', theme);
+});
+
+let form = document.querySelector('form');
+
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const data = new FormData(form);
+    let params = [];
+
+    for (let [name, value] of data) {
+        params.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+    }
+
+    const queryString = params.join('&');
+    const mailtoLink = `mailto:dmplunkett@ucsd.edu?${queryString}`;
+    window.location.href = mailtoLink;
 });
