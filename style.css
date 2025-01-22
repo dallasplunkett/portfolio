@@ -74,7 +74,7 @@ nav a:hover {
     border-bottom: var(--small-space) solid var(--blue);
 }
 
-nav .active {
+nav .current {
     border-bottom: var(--small-space) solid var(--light-gray);
     font-weight: 700;
 }
