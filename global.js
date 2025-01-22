@@ -21,24 +21,20 @@ for (let p of pages) {
     let url = p.url;
     let title = p.title;
 
-    if (!url.startsWith('http')) {
-        const currentDepth = location.pathname.split('/').filter(Boolean).length;
-        const prefix = ARE_WE_HOME ? '' : '../'.repeat(currentDepth);
-        url = prefix + url;
+    if (!ARE_WE_HOME && !url.startsWith('http')) {
+        url = '../' + url;
     }
 
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
 
-    const currentUrl = new URL(a.href, location.origin);
-    if (currentUrl.host === location.host && currentUrl.pathname === location.pathname) {
+    if (a.host === location.host && a.pathname === location.pathname) {
         a.classList.add('current');
     }
 
     if (a.host !== location.host) {
         a.target = '_blank';
-        a.rel = 'noopener noreferrer';
     }
 
     nav.appendChild(a);
