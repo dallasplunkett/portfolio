@@ -21,15 +21,18 @@ for (let p of pages) {
     let url = p.url;
     let title = p.title;
 
-    if (!ARE_WE_HOME && !url.startsWith('http')) {
-        url = '../' + url;
+    if (!url.startsWith('http')) {
+        const currentDepth = location.pathname.split('/').filter(Boolean).length;
+        const prefix = ARE_WE_HOME ? '' : '../'.repeat(currentDepth);
+        url = prefix + url;
     }
 
     let a = document.createElement('a');
     a.href = url;
     a.textContent = title;
 
-    if (a.host === location.host && a.pathname === location.pathname) {
+    const currentUrl = new URL(a.href, location.origin);
+    if (currentUrl.host === location.host && currentUrl.pathname === location.pathname) {
         a.classList.add('current');
     }
 
@@ -38,7 +41,7 @@ for (let p of pages) {
         a.rel = 'noopener noreferrer';
     }
 
-    nav.appendChild(a)
+    nav.appendChild(a);
 }
 
 document.querySelector('.container').insertAdjacentHTML(
