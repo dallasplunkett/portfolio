@@ -1,4 +1,4 @@
-console.log('IT’S ALIVE!');
+// HELPER
 
 function $$(selector, context = document) {
     return Array.from(context.querySelectorAll(selector));
@@ -11,6 +11,8 @@ let pages = [
     { url: 'cv/', title: 'CV' },
     { url: 'https://github.com/dallasplunkett', title: 'GitHub' },
 ];
+
+// CONSTRUCT NAVIGATION
 
 let nav = document.createElement('nav');
 document.querySelector(".container").prepend(nav);
@@ -39,6 +41,8 @@ for (let p of pages) {
 
     nav.appendChild(a);
 }
+
+// CONSTRUCT THEME PICKER
 
 document.querySelector('.container').insertAdjacentHTML(
     'afterbegin',
@@ -78,18 +82,68 @@ select.addEventListener('input', function (event) {
     localStorage.setItem('colorScheme', theme);
 });
 
-let form = document.querySelector('form');
+// CONSTRUCT CONTACT FORM
 
-form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const data = new FormData(form);
-    let params = [];
+if (window.location.pathname === '/contact') {
+    let form = document.querySelector('form');
 
-    for (let [name, value] of data) {
-        params.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const data = new FormData(form);
+        let params = [];
+
+        for (let [name, value] of data) {
+            params.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+        }
+
+        const queryString = params.join('&');
+        const mailtoLink = `mailto:dmplunkett@ucsd.edu?${queryString}`;
+        window.location.href = mailtoLink;
+    });
+}
+
+// GET PROJECT JSON DATA
+
+export async function fetchJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch projects: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching or parsing JSON data:', error);
+    }
+}
+
+// ADD PROJECTS INTO A CONTAINER
+
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+    if (!containerElement || !(containerElement instanceof HTMLElement)) {
+        console.error('Invalid container element provided.');
+        return;
     }
 
-    const queryString = params.join('&');
-    const mailtoLink = `mailto:dmplunkett@ucsd.edu?${queryString}`;
-    window.location.href = mailtoLink;
-});
+    const validHeadingLevels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+    if (!validHeadingLevels.includes(headingLevel)) {
+        console.warn(`Invalid heading level: ${headingLevel}. Defaulting to 'h2'.`);
+        headingLevel = 'h2';
+    }
+
+    containerElement.innerHTML = '';
+
+    for (let i = 0; i < projects.length; i++) {
+        const project = projects[i];
+
+        const article = document.createElement('article');
+        article.innerHTML = `
+            <${headingLevel}>${project.title}</${headingLevel}>
+            <img src="${project.image}" alt="${project.title || 'Project image not found.'}">
+            <p>${project.description || 'No description found.'}</p>
+        `;
+
+        containerElement.appendChild(article);
+    }
+}
