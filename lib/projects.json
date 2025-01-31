@@ -1,61 +1,73 @@
 [
     {
-        "title": "HELLO, i'm an EDIT from within the JSON",
+        "title": "Statistical Analysis on Dream Valence",
+        "year": 2023,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non ut eius, consectetur ratione\n                    repudiandae libero? Modi, recusandae ratione soluta earum nulla quos dolor adipisci nam obcaecati,\n                    placeat totam mollitia molestiae."
+        "description": "This study examines the impact of dreams on mental and physical health by analyzing dream dairies through text analysis. It applies sentiment analysis (VADER) to explore the dataset and uses time series models (AR, MA, and ARMA) to predict dream valence, yielding mixed results."
     },
     {
-        "title": "Optio maiores dolore aliquid.",
+        "title": "Profanity and Song Popularity",
+        "year": 2023,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Cum doloremque doloribus accusamus harum esse ex fugiat non. Rem excepturi esse quos perspiciatis\n                    voluptatem dolorum blanditiis nobis porro, expedita eaque mollitia inventore aspernatur enim\n                    obcaecati numquam cupiditate quibusdam corporis."
+        "description": "This study examines whether profanity in songs increases their popularity using Spotify and YouTube data. Through statistical and predictive analysis, it finds a rising trend in explicit songs’ success, likely driven by cultural shifts and listener preferences. Ethical concerns include data transparency and bias mitigation."
     },
     {
-        "title": "Obcaecati atque nostrum temporibus?",
+        "title": "Analysis of Power Outages",
+        "year": 2024,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Cupiditate velit aut qui sapiente, cum expedita consectetur sequi magnam, recusandae accusamus\n                    aliquid quae consequuntur officiis perferendis repellat doloribus earum rerum minima, sint nihil\n                    ipsa. Blanditiis vel esse voluptatem aspernatur!"
+        "description": "This project analyzes U.S. power outages (2000–2016), examining causes, duration, and trends. Severe weather is the main cause, and predictive modeling showed limited accuracy with climate-related biases."
     },
     {
         "title": "Repudiandae, impedit. Magnam, repellat.",
+        "year": 2021,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Aspernatur qui facilis, minima quae perferendis asperiores sequi debitis dicta delectus possimus eum\n                    quas atque dolore. Nulla quod, quo, ea ipsum magnam tempore placeat amet officiis fuga maxime quam\n                    in?"
     },
     {
         "title": "Perferendis expedita perspiciatis quis!",
+        "year": 2020,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Minus optio nulla, quo sunt corporis, quae eos dolorem, consequatur ratione error excepturi officia\n                    atque? Dolore, officia? Dicta, deserunt. Molestiae perferendis quod laborum quis. Quae culpa nisi\n                    nulla incidunt eveniet?"
     },
     {
         "title": "Eius amet quis quae.",
+        "year": 2019,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Cumque esse ducimus dicta eos culpa tenetur quia doloribus adipisci temporibus, eius, dolorem ut\n                    nesciunt quisquam fugit perspiciatis officia tempora molestias rem nobis, suscipit soluta quas optio\n                    ipsa expedita. Sit?"
     },
     {
         "title": "Quidem excepturi praesentium consequatur.",
+        "year": 2018,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Accusantium amet culpa facere rerum vitae consequatur aperiam quod, consectetur cumque quo quasi\n                    alias voluptas obcaecati maxime eveniet, voluptatum ullam iure doloribus nulla praesentium.\n                    Consectetur veniam quisquam tempora facere aliquid?"
     },
     {
         "title": "Nobis eos facilis provident.",
+        "year": 2017,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Itaque, sapiente odit blanditiis magni quae ab aliquid accusantium ullam delectus voluptatem\n                    voluptate harum quos aliquam doloribus necessitatibus at distinctio quisquam reiciendis quibusdam\n                    saepe cum esse? Dolore doloremque voluptatibus commodi."
     },
     {
         "title": "Veritatis nam voluptas facilis?",
+        "year": 2016,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Consequuntur quasi soluta nulla quod nesciunt mollitia illum molestias voluptate enim minima,\n                    aspernatur dolor dignissimos, hic impedit obcaecati laboriosam ullam magnam unde? Animi, quisquam\n                    suscipit? Dolorum saepe ad quos eius."
     },
     {
         "title": "Quibusdam temporibus sapiente blanditiis!",
+        "year": 2015,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Id maiores voluptates recusandae debitis, inventore quae, dolore nemo dicta error dolorum earum. Iste\n                    alias ratione ducimus ullam ipsam minima, dolor quos rem ipsa provident tenetur, sapiente maiores\n                    sed perferendis!"
     },
     {
         "title": "Numquam voluptates vero nihil?",
+        "year": 2014,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Ad laboriosam quos ducimus at facere porro voluptatibus eos id delectus doloremque, officia optio\n                    accusantium maiores ipsam modi neque quae nobis aliquam in commodi esse ut nesciunt nam velit.\n                    Voluptas."
     },
     {
         "title": "Quidem porro distinctio placeat.",
+        "year": 2013,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Recusandae temporibus, voluptatum, incidunt unde saepe ipsam dolore dolorum eius aliquid laborum,\n                    quod magnam deleniti officiis fuga quo itaque corrupti accusantium voluptates amet tenetur minima\n                    ullam beatae ex sit? Quisquam."
     }

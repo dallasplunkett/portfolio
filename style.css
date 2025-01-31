@@ -154,11 +154,17 @@ button:hover {
     }
 }
 
-/* misc */
+em {
+    font-weight: lighter;
+}
+
+/* media */
 
 img {
     border-radius: var(--radius);
 }
+
+/* typography */
 
 p {
     font-size: 1em;
@@ -197,4 +203,28 @@ html {
     border-radius: var(--radius);
     padding: 0.1em;
     font: inherit;
+}
+
+/* Github Stats */
+
+dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--big-space);
+}
+
+dl>div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-space);
+}
+
+dt {
+    font-weight: lighter;
+    font-size: 0.9em;
+}
+
+dd {
+    font-size: 2.5em;
+    margin: 0;
 }
