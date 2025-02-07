@@ -131,6 +131,10 @@ button:hover {
     gap: var(--space);
 }
 
+.projects article p span {
+    font-weight: lighter;
+}
+
 /* cv */
 
 .cv {
