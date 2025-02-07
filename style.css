@@ -135,6 +135,13 @@ button:hover {
     font-weight: lighter;
 }
 
+#projects-pie-plot {
+    max-width: 20em;
+    margin-block: 2em;
+  
+    overflow: visible;
+}
+
 /* cv */
 
 .cv {
