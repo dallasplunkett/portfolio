@@ -135,11 +135,39 @@ button:hover {
     font-weight: lighter;
 }
 
+/* pie chart */
+
+.pie-chart {
+    display: flex;
+    align-items: center;
+    gap: var(--big-space);
+}
+
 #projects-pie-plot {
     max-width: 20em;
-    margin-block: 2em;
-  
-    overflow: visible;
+}
+
+.legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6em, 1fr));
+    gap: 1em;
+    border: 1px white solid;
+    border-radius: var(--radius);
+    margin: 0;
+    padding: 1em;
+    flex: 1;
+}
+
+.legend li {
+    list-style: none;
+    white-space: nowrap;
+}
+
+.swatch {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
 }
 
 /* cv */
