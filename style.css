@@ -170,6 +170,12 @@ button:hover {
     border-radius: 100%;
 }
 
+/* search bar */
+
+.searchBar {
+    margin-top: 1em;
+}
+
 /* cv */
 
 .cv {
