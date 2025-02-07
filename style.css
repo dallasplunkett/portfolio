@@ -151,7 +151,7 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(6em, 1fr));
     gap: 1em;
-    border: 1px white solid;
+    border: 1px var(--light-gray) solid;
     border-radius: var(--radius);
     margin: 0;
     padding: 1em;
@@ -168,6 +168,25 @@ button:hover {
     width: 1em;
     height: 1em;
     border-radius: 100%;
+}
+
+&:has(path:hover) {
+    path:not(:hover) {
+        opacity: 0.5;
+    }
+}
+
+path {
+    transition: 300ms;
+    cursor: pointer;
+}
+
+path.selected {
+    fill: oklch(60% 45% 0) !important;
+}
+
+.legend li.selected .swatch {
+    background-color: oklch(60% 45% 0) !important;
 }
 
 /* search bar */

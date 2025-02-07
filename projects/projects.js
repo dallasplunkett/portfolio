@@ -12,6 +12,8 @@ if (projectsTitle) {
     projectsTitle.textContent = `${projects.length} Projects`;
 }
 
+let selectedIndex = -1;
+
 function renderPieChart(projectsGiven) {
     // re-calculate rolled data
     let newRolledData = d3.rollups(
@@ -39,10 +41,27 @@ function renderPieChart(projectsGiven) {
 
     // append arcs to SVG with color
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
     newArcs.forEach((arcPath, idx) => {
         svg.append('path')
             .attr('d', arcPath)
-            .attr('fill', colors(idx));
+            .attr('fill', colors(idx))
+            .on('click', () => {
+                selectedIndex = (selectedIndex === idx) ? -1 : idx;
+
+                svg.selectAll('path')
+                    .attr('class', (_, i) => i === selectedIndex ? 'selected' : '');
+                legend.selectAll('li')
+                    .attr('class', (_, i) => i === selectedIndex ? 'selected' : '');
+
+                if (selectedIndex === -1) {
+                    renderProjects(projects, projectsContainer, 'h2');
+                } else {
+                    const selectedYear = newData[selectedIndex].label;
+                    const filteredProjects = projects.filter(project => project.year === selectedYear);
+                    renderProjects(filteredProjects, projectsContainer, 'h2');
+                }
+            });
     });
 
     // update legend with data
@@ -51,6 +70,9 @@ function renderPieChart(projectsGiven) {
             .attr('style', `--color:${colors(idx)}`)
             .html(`<span class="swatch" style="background-color:${colors(idx)}"></span> ${d.label} <em>(${d.value})</em>`);
     });
+
+    legend.selectAll('li')
+        .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
 }
 
 renderPieChart(projects);
@@ -69,5 +91,7 @@ searchInput.addEventListener('input', (event) => {
     if (projectsTitle) {
         projectsTitle.textContent = `${filteredProjects.length} Projects`;
     }
+
+    selectedIndex = -1;
     renderPieChart(filteredProjects);
 });
