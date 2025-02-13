@@ -293,13 +293,15 @@ dd {
     margin: 0;
 }
 
+/* Meta stats */
+
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--big-space);
 }
 
-.stats > div {
+.stats>div {
     display: flex;
     flex-direction: column;
     gap: var(--small-space);
@@ -313,4 +315,12 @@ dd {
 .stats dd {
     font-size: 2.5em;
     margin: 0;
+}
+
+/* scatter plot styles */
+
+.gridlines path,
+.gridlines line {
+    stroke: #ccc;
+    stroke-opacity: 0.5;
 }
