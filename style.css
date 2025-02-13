@@ -292,3 +292,25 @@ dd {
     font-size: 2.5em;
     margin: 0;
 }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--big-space);
+}
+
+.stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-space);
+}
+
+.stats dt {
+    font-weight: lighter;
+    font-size: 0.9em;
+}
+
+.stats dd {
+    font-size: 2.5em;
+    margin: 0;
+}

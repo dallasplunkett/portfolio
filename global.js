@@ -9,8 +9,8 @@ let pages = [
     { url: 'contact/', title: 'Contact' },
     { url: 'projects/', title: 'Projects' },
     { url: 'cv/', title: 'CV' },
-    { url: 'https://github.com/dallasplunkett', title: 'GitHub' },
     { url: 'meta/', title: 'Meta' },
+    { url: 'https://github.com/dallasplunkett', title: 'GitHub' },
 ];
 
 // CONSTRUCT NAVIGATION
