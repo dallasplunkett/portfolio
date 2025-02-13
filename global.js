@@ -10,6 +10,7 @@ let pages = [
     { url: 'projects/', title: 'Projects' },
     { url: 'cv/', title: 'CV' },
     { url: 'https://github.com/dallasplunkett', title: 'GitHub' },
+    { url: 'meta/', title: 'Meta' },
 ];
 
 // CONSTRUCT NAVIGATION
