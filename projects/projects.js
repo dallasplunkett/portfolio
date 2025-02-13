@@ -55,10 +55,10 @@ function renderPieChart(projectsGiven) {
                     .attr('class', (_, i) => i === selectedIndex ? 'selected' : '');
 
                 if (selectedIndex === -1) {
-                    renderProjects(projects, projectsContainer, 'h2');
+                    renderProjects(projectsGiven, projectsContainer, 'h2');
                 } else {
                     const selectedYear = newData[selectedIndex].label;
-                    const filteredProjects = projects.filter(project => project.year === selectedYear);
+                    const filteredProjects = projectsGiven.filter(project => project.year === selectedYear);
                     renderProjects(filteredProjects, projectsContainer, 'h2');
                 }
             });
