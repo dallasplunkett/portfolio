@@ -141,7 +141,53 @@ function createScatterplot() {
         .attr('cx', (d) => xScale(d.datetime))
         .attr('cy', (d) => yScale(d.hourFrac))
         .attr('r', 5)
-        .attr('fill', 'steelblue');
+        .attr('fill', 'steelblue')
+        .on('mouseenter', (event, commit) => {
+            updateTooltipContent(commit);
+            updateTooltipVisibility(true);
+            updateTooltipPosition(event);
+        })
+        .on('mousemove', (event) => {
+            updateTooltipPosition(event); // Move tooltip with cursor
+        })
+        .on('mouseleave', () => {
+            updateTooltipVisibility(false);
+        });
+}
+
+function updateTooltipContent(commit) {
+    const tooltip = document.getElementById('commit-tooltip');
+    const link = document.getElementById('commit-link');
+    const date = document.getElementById('commit-date');
+
+    // if (!commit || Object.keys(commit).length === 0) {
+    //     tooltip.hidden = true; // Hide tooltip when no commit
+    //     return;
+    // }
+
+    link.href = commit.url;
+    link.textContent = commit.id;
+    date.textContent = commit.datetime?.toLocaleString('en', {
+        dateStyle: 'full',
+    });
+
+    tooltip.hidden = false; // Show tooltip when there's content
+}
+
+function updateTooltipVisibility(isVisible) {
+    const tooltip = document.getElementById('commit-tooltip');
+    tooltip.hidden = !isVisible;
+}
+
+function updateTooltipPosition(event) {
+    const tooltip = document.getElementById('commit-tooltip');
+
+    // Offset so tooltip isn't directly under cursor
+    const offsetX = 15;
+    const offsetY = 15;
+
+    tooltip.style.left = `${event.clientX + offsetX}px`;
+    tooltip.style.top = `${event.clientY + offsetY}px`;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

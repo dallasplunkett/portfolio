@@ -317,10 +317,68 @@ dd {
     margin: 0;
 }
 
-/* scatter plot styles */
+/* scatter plot */
 
 .gridlines path,
 .gridlines line {
     stroke: #ccc;
     stroke-opacity: 0.5;
+}
+
+/* scatter hover */
+
+circle {
+    transition: 200ms;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+circle:hover {
+    transform: scale(1.5);
+}
+
+/* scatter tooltip */
+
+dl.info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25em 1em;
+    align-items: baseline;
+}
+
+dl.info dt {
+    font-weight: normal;
+    color: #666;
+    margin: 0;
+}
+
+dl.info dd {
+    font-weight: bold;
+    margin: 0;
+}
+
+.tooltip {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    padding: 0.8em 1em;
+    font-size: 0.5em;
+    pointer-events: none;
+    z-index: 1000;
+    transition-duration: 300ms;
+    transition-property: opacity, visibility;
+}
+
+.tooltip[hidden]:not(:hover, :focus-within) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+dl.tooltip {
+    padding: 0.5em;
 }
