@@ -32,6 +32,10 @@ body {
     justify-content: center;
 }
 
+body {
+    overflow: hidden;
+}
+
 /* container */
 
 .container {
@@ -383,6 +387,14 @@ dl.tooltip {
     padding: 0.5em;
 }
 
+/* selection box */
+
+@keyframes marching-ants {
+    to {
+        stroke-dashoffset: -8;
+    }
+}
+
 .selection {
     fill-opacity: 0.1;
     stroke: black;
@@ -393,4 +405,23 @@ dl.tooltip {
 
 circle.selected {
     fill: #ff6b6b;
+}
+
+/* language breakdown */
+
+#language-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--big-space);
+    text-align: center;
+}
+
+#language-breakdown dt {
+    font-weight: bold;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+#language-breakdown dd {
+    font-size: 1em;
 }
