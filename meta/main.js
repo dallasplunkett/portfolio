@@ -28,7 +28,6 @@ function displayStats() {
 
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
-    // Helper function to wrap each stat in a div
     function addStat(label, value) {
         const div = dl.append('div');
         div.append('dt').text(label);
@@ -108,6 +107,15 @@ function createScatterplot() {
         .domain([0, 24])
         .range([usableArea.top, usableArea.bottom]);
 
+    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+
+    const rScale = d3
+        .scaleSqrt()
+        .domain([minLines, maxLines])
+        .range([2, 30]);
+
+    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+
     const gridlines = svg
         .append('g')
         .attr('class', 'gridlines')
@@ -136,21 +144,24 @@ function createScatterplot() {
 
     dots
         .selectAll('circle')
-        .data(commits)
+        .data(sortedCommits)
         .join('circle')
         .attr('cx', (d) => xScale(d.datetime))
         .attr('cy', (d) => yScale(d.hourFrac))
-        .attr('r', 5)
+        .attr('r', (d) => rScale(d.totalLines))
         .attr('fill', 'steelblue')
-        .on('mouseenter', (event, commit) => {
+        .style('fill-opacity', 0.7)
+        .on('mouseenter', function (event, commit) {
+            d3.select(event.currentTarget).style('fill-opacity', 1);
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
         })
         .on('mousemove', (event) => {
-            updateTooltipPosition(event); // Move tooltip with cursor
+            updateTooltipPosition(event);
         })
-        .on('mouseleave', () => {
+        .on('mouseleave', function (event) {
+            d3.select(event.currentTarget).style('fill-opacity', 0.7);
             updateTooltipVisibility(false);
         });
 }
@@ -160,18 +171,13 @@ function updateTooltipContent(commit) {
     const link = document.getElementById('commit-link');
     const date = document.getElementById('commit-date');
 
-    // if (!commit || Object.keys(commit).length === 0) {
-    //     tooltip.hidden = true; // Hide tooltip when no commit
-    //     return;
-    // }
-
     link.href = commit.url;
     link.textContent = commit.id;
     date.textContent = commit.datetime?.toLocaleString('en', {
         dateStyle: 'full',
     });
 
-    tooltip.hidden = false; // Show tooltip when there's content
+    tooltip.hidden = false;
 }
 
 function updateTooltipVisibility(isVisible) {
@@ -182,7 +188,6 @@ function updateTooltipVisibility(isVisible) {
 function updateTooltipPosition(event) {
     const tooltip = document.getElementById('commit-tooltip');
 
-    // Offset so tooltip isn't directly under cursor
     const offsetX = 15;
     const offsetY = 15;
 
