@@ -382,3 +382,15 @@ dl.info dd {
 dl.tooltip {
     padding: 0.5em;
 }
+
+.selection {
+    fill-opacity: 0.1;
+    stroke: black;
+    stroke-opacity: 0.7;
+    stroke-dasharray: 5 3;
+    animation: marching-ants 2s linear infinite;
+}
+
+circle.selected {
+    fill: #ff6b6b;
+}

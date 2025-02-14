@@ -1,5 +1,7 @@
 let data = [];
 let commits = [];
+let xScale, yScale;
+let brushSelection = null;
 
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
@@ -19,10 +21,8 @@ function displayStats() {
     processCommits();
 
     let uniqueFiles = d3.group(data, d => d.file).size;
-
     let fileLengths = d3.rollups(data, v => d3.max(v, d => d.line), d => d.file);
     let avgFileLength = d3.mean(fileLengths, d => d[1]).toFixed(2);
-
     let activeHours = d3.rollup(commits, v => v.length, d => Math.floor(d.hourFrac));
     let peakHour = d3.greatest(activeHours, d => d[1])?.[0];
 
@@ -45,28 +45,16 @@ function processCommits() {
         .groups(data, (d) => d.commit)
         .map(([commit, lines]) => {
             let first = lines[0];
-            let { author, date, time, timezone, datetime } = first;
+            let { author, datetime } = first;
 
-            let ret = {
+            return {
                 id: commit,
                 url: `https://github.com/dallasplunkett/portfolio/commit/${commit}`,
                 author,
-                date,
-                time,
-                timezone,
                 datetime,
                 hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
                 totalLines: lines.length,
             };
-
-            Object.defineProperty(ret, 'lines', {
-                value: lines,
-                enumerable: false,
-                writable: false,
-                configurable: false
-            });
-
-            return ret;
         });
 }
 
@@ -96,13 +84,13 @@ function createScatterplot() {
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
-    const xScale = d3
+    xScale = d3
         .scaleTime()
         .domain(d3.extent(commits, (d) => d.datetime))
         .range([usableArea.left, usableArea.right])
         .nice();
 
-    const yScale = d3
+    yScale = d3
         .scaleLinear()
         .domain([0, 24])
         .range([usableArea.top, usableArea.bottom]);
@@ -116,34 +104,29 @@ function createScatterplot() {
 
     const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
 
+    brushSelector(svg);
+
     const gridlines = svg
         .append('g')
         .attr('class', 'gridlines')
-        .attr('transform', `translate(${usableArea.left}, 0)`);
+        .attr('transform', `translate(${usableArea.left}, 0)`)
+        .call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width)
+        );
 
-    gridlines.call(
-        d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width)
-    );
+    const xAxis = d3.axisBottom(xScale).ticks(d3.timeWeek.every(1)).tickFormat(d3.timeFormat('%b %d'));
+    const yAxis = d3.axisLeft(yScale).tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
 
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3
-        .axisLeft(yScale)
-        .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
-
-    svg
-        .append('g')
+    svg.append('g')
         .attr('transform', `translate(0, ${usableArea.bottom})`)
         .call(xAxis);
 
-    svg
-        .append('g')
+    svg.append('g')
         .attr('transform', `translate(${usableArea.left}, 0)`)
         .call(yAxis);
 
     const dots = svg.append('g').attr('class', 'dots');
 
-    dots
-        .selectAll('circle')
+    dots.selectAll('circle')
         .data(sortedCommits)
         .join('circle')
         .attr('cx', (d) => xScale(d.datetime))
@@ -157,11 +140,9 @@ function createScatterplot() {
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
         })
-        .on('mousemove', (event) => {
-            updateTooltipPosition(event);
-        })
+        .on('mousemove', updateTooltipPosition)
         .on('mouseleave', function (event) {
-            d3.select(event.currentTarget).style('fill-opacity', 0.7);
+            d3.select(this).style('fill-opacity', 0.7);
             updateTooltipVisibility(false);
         });
 }
@@ -193,6 +174,11 @@ function updateTooltipPosition(event) {
 
     tooltip.style.left = `${event.clientX + offsetX}px`;
     tooltip.style.top = `${event.clientY + offsetY}px`;
+}
+
+function brushSelector() {
+    const svg = document.querySelector('svg');
+    d3.select(svg).call(d3.brush());
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
