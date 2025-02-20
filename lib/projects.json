@@ -2,43 +2,43 @@
     {
         "title": "I Wheelie Love Bikes",
         "year": 2025,
-        "image": "images/i-wheelie-love-bikes.png",
+        "image": "/images/i-wheelie-love-bikes.png",
         "description": "Using Mapbox GL JS and D3, this project visualizes Boston’s bike traffic in an interactive map. It shows bike lanes, overlays station markers scaled by usage, and includes a time-of-day slider to highlight traffic patterns at different hours.",
         "link": "https://dallasplunkett.github.io/wheelie-love-bikes/"
     },
     {
+        "title": "A Mouse's Journey",
+        "year": 2025,
+        "image": "/images/a-mouse-journey.png",
+        "description": "An interactive plot that visualizes the distributional differences of temperature or activity between male and female mice. It also includes a further subdivision of females into estrus and non-estrus states. The project utilized D3.js along with Python for ideation and exploration.",
+        "link": "https://cheese-chasers-106.github.io/mouse/"
+    },
+    {
         "title": "Analysis of Power Outages",
         "year": 2024,
-        "image": "images/analysis-of-power-outages.png",
+        "image": "/images/analysis-of-power-outages.png",
         "description": "This project analyzes U.S. power outages (2000–2016), examining causes, duration, and trends. Severe weather is the main cause, and predictive modeling showed limited accuracy with climate-related biases.",
         "link": "https://dallasplunkett.github.io/power_outages/"
     },
     {
         "title": "Statistical Analysis on Dream Valence",
         "year": 2023,
-        "image": "images/statistical-analysis-on-dream-valence.png",
+        "image": "/images/statistical-analysis-on-dream-valence.png",
         "description": "This study examines the impact of dreams on mental and physical health by analyzing dream dairies through text analysis. It applies sentiment analysis (VADER) to explore the dataset and uses time series models (AR, MA, and ARMA) to predict dream valence, yielding mixed results.",
         "link": "https://docs.google.com/document/d/10aT2kDfsGsxrVXQ6XdQuGGBpN_c2_pfRoiUpX5fuSLA/edit?usp=sharing"
     },
     {
         "title": "Profanity and Song Popularity",
         "year": 2023,
-        "image": "images/profanity-and-song-popularity.png",
+        "image": "/images/profanity-and-song-popularity.png",
         "description": "This study examines whether profanity in songs increases their popularity using Spotify and YouTube data. Through statistical and predictive analysis, it finds a rising trend in explicit songs’ success, likely driven by cultural shifts and listener preferences. Ethical concerns include data transparency and bias mitigation.",
         "link": "https://docs.google.com/document/d/1o3Gi3Uoo6bcuaK7wxxTiG5FDGeQ4LpSeZwI7r9sh64I/edit?usp=sharing"
     },
     {
         "title": "Basic 2D Platform Mechanics",
         "year": 2021,
-        "image": "images/basic-2d-platform-mechanics.png",
+        "image": "/images/basic-2d-platform-mechanics.png",
         "description": "A very simple 2D platformer that can be ran in the browser. You can walk, jump, and the animations mostly work. It utilizes HTML Canvas and Javascript for all the logic and rendering. This was a mini project to explore!",
-        "link": ""
-    },
-    {
-        "title": "Eius amet quis quae.",
-        "year": 2019,
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Cumque esse ducimus dicta eos culpa tenetur quia doloribus adipisci temporibus, eius, dolorem ut\n                    nesciunt quisquam fugit perspiciatis officia tempora molestias rem nobis, suscipit soluta quas optio\n                    ipsa expedita. Sit?",
         "link": "https://github.com/dallasplunkett/platformer/tree/master"
     },
     {
