@@ -226,6 +226,7 @@ em {
 
 img {
     border-radius: var(--radius);
+    max-width: 100%;
 }
 
 /* typography */

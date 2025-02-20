@@ -135,18 +135,27 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
 
     containerElement.innerHTML = '';
 
-    for (let i = 0; i < projects.length; i++) {
-        const project = projects[i];
-
+    projects.forEach(project => {
         const article = document.createElement('article');
-        article.innerHTML = `
-            <${headingLevel}>${project.title}</${headingLevel}>
-            <img src="${project.image}" alt="${project.title || 'Project image not found.'}">
-            <p>${project.description || 'No description found.'}<br><span>${project.year || 'No date found.'}</span></p>
+        const titleMarkup = `<${headingLevel}>${project.title}</${headingLevel}>`;
+
+        const imgMarkup = project.link && project.link.trim() !== ''
+            ? `<a href="${project.link}" target="_blank"><img src="${project.image}" alt="${project.title || 'Project image not found.'}"></a>`
+            : `<img src="${project.image}" alt="${project.title || 'Project image not found.'}">`;
+
+        const innerContent = `
+            ${titleMarkup}
+            ${imgMarkup}
+            <p>
+                ${project.description || 'No description found.'}<br><br>
+                <span>${project.year || 'No date found.'}</span>
+            </p>
         `;
 
+        article.innerHTML = innerContent;
         containerElement.appendChild(article);
-    }
+    });
+
 }
 
 // FETCH GITHUB DATA
