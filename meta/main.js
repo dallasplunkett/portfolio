@@ -2,6 +2,7 @@ let data = [];
 let commits = [];
 let xScale, yScale;
 let brushSelection = null;
+let selectedCommits = [];
 
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
@@ -136,14 +137,20 @@ function createScatterplot() {
         .attr('fill', 'steelblue')
         .style('fill-opacity', 0.7)
         .on('mouseenter', function (event, commit) {
-            d3.select(event.currentTarget).style('fill-opacity', 1);
+            d3.select(event.currentTarget)
+                .style('fill-opacity', 1)
+                .classed('selected', isCommitSelected(commit));
+
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
         })
         .on('mousemove', updateTooltipPosition)
-        .on('mouseleave', function (event) {
-            d3.select(this).style('fill-opacity', 0.7);
+        .on('mouseleave', function (event, commit) {
+            d3.select(this)
+                .style('fill-opacity', 0.7)
+                .classed('selected', isCommitSelected(commit));
+
             updateTooltipVisibility(false);
         });
 }
@@ -177,52 +184,46 @@ function updateTooltipPosition(event) {
     tooltip.style.top = `${event.clientY + offsetY}px`;
 }
 
-function brushSelector(svg) {
-    const brush = d3.brush()
-        .extent([[0, 0], [600, 400]])
-        .on("start brush end", brushed);
-
-    svg.append("g").attr("class", "brush").call(brush);
-    svg.selectAll('.dots, .overlay ~ *').raise();
-}
-
 function brushed(event) {
-    brushSelection = event.selection;
+    let brushSelection = event.selection;
+    selectedCommits = !brushSelection
+        ? []
+        : commits.filter(commit => {
+            let min = { x: brushSelection[0][0], y: brushSelection[0][1] };
+            let max = { x: brushSelection[1][0], y: brushSelection[1][1] };
+            let x = xScale(commit.datetime);
+            let y = yScale(commit.hourFrac);
+
+            return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+        });
+
     updateSelection();
     updateSelectionCount();
     updateLanguageBreakdown();
 }
 
+function brushSelector(svg) {
+    const brush = d3.brush()
+        .extent([[0, 0], [600, 400]])
+        .on("brush end", brushed);
+
+    svg.append("g").attr("class", "brush").call(brush);
+}
+
 function isCommitSelected(commit) {
-    if (!brushSelection) {
-        return false;
-    }
-    const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
-    const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
-    const x = xScale(commit.datetime);
-    const y = yScale(commit.hourFrac);
-    return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+    return selectedCommits.includes(commit);
 }
 
 function updateSelection() {
-    d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
+    d3.selectAll('circle').classed('selected', (d) => selectedCommits.includes(d));
 }
 
 function updateSelectionCount() {
-    const selectedCommits = brushSelection
-        ? commits.filter(isCommitSelected)
-        : [];
-
     const countElement = document.getElementById('selection-count');
     countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
-
-    return selectedCommits;
 }
 
 function updateLanguageBreakdown() {
-    const selectedCommits = brushSelection
-        ? commits.filter(isCommitSelected)
-        : [];
     const container = document.getElementById('language-breakdown');
 
     if (selectedCommits.length === 0) {
@@ -250,8 +251,6 @@ function updateLanguageBreakdown() {
             </div>
         `;
     }
-
-    return breakdown;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
