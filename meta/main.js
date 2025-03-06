@@ -255,4 +255,28 @@ function updateLanguageBreakdown() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
+
+    processCommits();
+
+    let commitProgress = 100;
+    let timeScale = d3
+        .scaleTime()
+        .domain(d3.extent(commits, d => d.datetime))
+        .range([0, 100]);
+
+    function updateSelectedTime() {
+        let commitMaxTime = timeScale.invert(commitProgress);
+        d3.select('#selectedTime')
+            .text(commitMaxTime
+                ? commitMaxTime.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' })
+                : "No commits available"
+            );
+    }
+
+    updateSelectedTime();
+
+    d3.select('#commit-slider').on('input', () => {
+        commitProgress = +this.value;
+        updateSelectedTime();
+    });
 });

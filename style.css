@@ -422,3 +422,7 @@ circle.selected {
 #language-breakdown dd {
     font-size: 1em;
 }
+
+#commit-slider {
+    width: 100%;
+}
