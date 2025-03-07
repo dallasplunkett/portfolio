@@ -329,9 +329,12 @@ function updateFileVisualization() {
 
     let dd = filesContainer.append('dd');
 
+    let fileTypeColors = d3.scaleOrdinal(d3.schemeCategory10);
+
     dd.selectAll('div')
         .data((d) => d.lines)
         .enter()
         .append('div')
-        .attr('class', 'line');
+        .attr('class', 'line')
+        .style('background', (line) => fileTypeColors(line.type));
 }
