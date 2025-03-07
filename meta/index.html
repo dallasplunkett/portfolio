@@ -15,26 +15,31 @@
     <div class="container">
         <h1>Meta</h1>
         <p>This page includes stats about the code of this website.</p>
-        <div id="filter-ui">
-            <div>
-                <p for="commit-slider">Show commits until:</p>
-                <time id="selectedTime"></time>
-            </div>
-            <input type="range" id="commit-slider" min="0" max="100" value="100">
-        </div>
-        <dl class="files"></dl>
+
         <h2>Summary</h2>
         <div id="stats"></div>
+
         <h2>Commits by time of day</h2>
-        <div id="chart"></div>
+        <div id="scrollytelling">
+            <div id="scroll-container">
+                <div id="spacer"></div>
+                <div id="items-container"></div>
+            </div>
+            <div class="scatter-section">
+                <div id="chart"></div>
+                <p id="selection-count"></p>
+                <dl id="language-breakdown" class="stats"></dl>
+            </div>
+        </div>
+
         <dl id="commit-tooltip" class="tooltip info" hidden>
             <dt>Commit ID</dt>
             <dd><a id="commit-link" href="#">Loading...</a></dd>
             <dt>Date</dt>
             <dd id="commit-date">Loading...</dd>
         </dl>
-        <p id="selection-count"></p>
-        <dl id="language-breakdown" class="stats"></dl>
+
+        <dl class="files"></dl>
     </div>
 </body>
 

@@ -476,6 +476,31 @@ circle.selected {
     display: flex;
     width: 0.5em;
     aspect-ratio: 1;
-    /* background: steelblue; */
     border-radius: 50%;
+}
+
+/* for the story */
+
+#scrollytelling {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+}
+
+.scatter-section {
+    display: flex;
+    flex-direction: column;
+}
+
+#selection-count {
+    margin-left: auto;
+}
+
+#scroll-container {
+    height: 60vh;
+    overflow-y: auto;
+}
+
+.item {
+    height: 160px;
 }

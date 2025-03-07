@@ -3,7 +3,6 @@ let data = [];
 let commits = [];
 let filteredCommits = [];
 let selectedCommits = [];
-let commitProgress = 100;
 
 let svg, xScale, yScale, rScale, xAxis, yAxis, brush, timeScale;
 
@@ -16,6 +15,8 @@ let usableArea = {
     top: margin.top,
     bottom: height - margin.bottom,
 };
+
+let itemsContainer;
 
 function initScatterplot() {
     svg = d3.select('#chart')
@@ -122,11 +123,6 @@ function applyCircleEvents(selection) {
         });
 }
 
-function filterCommitsByTime() {
-    let commitMaxTime = timeScale.invert(commitProgress);
-    filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
-}
-
 function brushed(event) {
     let brushSelection = event.selection;
     selectedCommits = !brushSelection
@@ -150,20 +146,6 @@ function isCommitSelected(commit) {
 function updateSelection() {
     svg.selectAll('circle')
         .classed('selected', d => isCommitSelected(d));
-}
-
-function updateSelectedTime() {
-    let commitMaxTime = timeScale.invert(commitProgress);
-
-    d3.select('#selectedTime')
-        .text(commitMaxTime
-            ? commitMaxTime.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' })
-            : 'No commits available'
-        );
-
-    filterCommitsByTime();
-    updateScatterplot(filteredCommits);
-    updateFileVisualization();
 }
 
 function updateSelectionCount() {
@@ -264,54 +246,43 @@ function processCommits() {
     });
 }
 
-async function loadData() {
-    data = await d3.csv('loc.csv', (row) => ({
+function loadData() {
+    d3.csv("loc.csv", (row) => ({
         ...row,
-        line: Number(row.line),
-        depth: Number(row.depth),
-        length: Number(row.length),
-        date: new Date(row.date + 'T00:00' + row.timezone),
+        line: +row.line,
+        depth: +row.depth,
+        length: +row.length,
+        date: new Date(row.date + "T00:00" + row.timezone),
         datetime: new Date(row.datetime),
-    }));
-
-    processCommits();
-
-    timeScale = d3
-        .scaleTime()
-        .domain(d3.extent(commits, d => d.datetime))
-        .range([0, 100]);
-
-    filterCommitsByTime();
-    displayStats();
-    updateScatterplot(filteredCommits);
-    updateSelectedTime();
+    }))
+        .then((csvData) => {
+            data = csvData;
+            processCommits();
+            commits.sort((a, b) => a.datetime - b.datetime);
+            displayStats();
+            updateScatterplot(commits);
+            displayCommitFiles(commits);
+            renderAllCommits();
+            setupScrollTimeFilter();
+        });
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     initScatterplot();
-
-    await loadData();
-
-    d3.select('#commit-slider').on('input', function () {
-        commitProgress = +this.value;
-        updateSelectedTime();
-    });
+    loadData();
 });
 
-function updateFileVisualization() {
-    let lines = filteredCommits.flatMap(d => d.lines);
+function displayCommitFiles(commitList) {
+    const lines = commitList.flatMap((d) => d.lines);
+    let fileTypeColors = d3.scaleOrdinal(d3.schemeTableau10);
 
-    let files = d3.groups(lines, d => d.file)
-        .map(([file, lines]) => ({
-            name: file,
-            lines
-        }));
+    let files = d3.groups(lines, (d) => d.file).map(([name, lines]) => {
+        return { name, lines };
+    });
 
-    files = d3.sort(files, d => -d.lines.length);
+    files = d3.sort(files, (d) => -d.lines.length);
 
-    d3.select('.files')
-        .selectAll('div')
-        .remove();
+    d3.select('.files').selectAll('div').remove();
 
     let filesContainer = d3.select('.files')
         .selectAll('div')
@@ -319,22 +290,59 @@ function updateFileVisualization() {
         .enter()
         .append('div');
 
-    filesContainer.append('dt')
-        .html((d) => {
-            return `
-            <code>${d.name}</code>
-            <small>${d.lines.length} lines</small>
-            `;
-        });
+    filesContainer
+        .append('dt')
+        .html((d) => `<code>${d.name}</code><small>${d.lines.length} lines</small>`);
 
-    let dd = filesContainer.append('dd');
-
-    let fileTypeColors = d3.scaleOrdinal(d3.schemeCategory10);
-
-    dd.selectAll('div')
+    filesContainer
+        .append('dd')
+        .selectAll('div')
         .data((d) => d.lines)
         .enter()
         .append('div')
         .attr('class', 'line')
-        .style('background', (line) => fileTypeColors(line.type));
+        .style('background', (d) => fileTypeColors(d.type));
+}
+
+function renderAllCommits() {
+    itemsContainer = d3.select("#items-container");
+    itemsContainer.selectAll(".item").remove();
+
+    itemsContainer
+        .selectAll(".item")
+        .data(commits)
+        .enter()
+        .append("div")
+        .attr("class", "item")
+        .html((commit, i) => {
+            return `
+            <p>
+                On ${commit.datetime.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })},
+                I made 
+                <a href="${commit.url}" target="_blank">
+                ${i > 0 ? 'another commit' : 'my first commit, and it was glorious'}
+                </a>.
+                I edited ${commit.totalLines} lines across
+                ${d3.rollups(commit.lines, (v) => v.length, (d) => d.file).length} files.
+                Then I looked over all I had made, and I saw that it was very good.
+            </p>
+            `;
+        });
+}
+
+function setupScrollTimeFilter() {
+    const scrollContainer = d3.select('#scroll-container');
+
+    scrollContainer.on('scroll', () => {
+        const node = scrollContainer.node();
+        let scrollTop = node.scrollTop;
+        let maxScroll = node.scrollHeight - node.clientHeight;
+        let fraction = maxScroll > 0 ? scrollTop / maxScroll : 1;
+
+        let totalCount = commits.length;
+        let countToShow = Math.floor(fraction * totalCount);
+        let newCommits = commits.slice(0, countToShow);
+        updateScatterplot(newCommits);
+        displayCommitFiles(newCommits);
+    });
 }
