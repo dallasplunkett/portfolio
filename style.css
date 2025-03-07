@@ -429,6 +429,12 @@ circle.selected {
     font-size: 1em;
 }
 
+#filter-ui div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #commit-slider {
     width: 100%;
 }
