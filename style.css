@@ -438,3 +438,27 @@ circle.selected {
 #commit-slider {
     width: 100%;
 }
+
+/* files */
+
+.files {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.files>div {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+}
+
+.files div dt {
+    grid-column: 1;
+    font-size: 1em;
+}
+
+.files div dd {
+    grid-column: 2;
+    font-size: 1em;
+}

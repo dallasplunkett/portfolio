@@ -163,6 +163,7 @@ function updateSelectedTime() {
 
     filterCommitsByTime();
     updateScatterplot(filteredCommits);
+    updateFileVisualization();
 }
 
 function updateSelectionCount() {
@@ -296,3 +297,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateSelectedTime();
     });
 });
+
+function updateFileVisualization() {
+    let lines = filteredCommits.flatMap(d => d.lines);
+
+    let files = d3.groups(lines, d => d.file)
+        .map(([file, lines]) => ({
+            name: file,
+            lines
+        }));
+
+    d3.select('.files')
+        .selectAll('div')
+        .remove();
+
+    let filesContainer = d3.select('.files')
+        .selectAll('div')
+        .data(files)
+        .enter()
+        .append('div');
+
+    filesContainer.append('dt')
+        .append('code')
+        .text(d => d.name);
+
+    filesContainer.append('dd')
+        .text(d => d.lines.length + ' lines');
+}
