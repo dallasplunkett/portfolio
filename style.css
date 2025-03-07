@@ -443,14 +443,13 @@ circle.selected {
 
 .files {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
 }
 
 .files>div {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: subgrid;
-    align-items: center;
 }
 
 .files div dt {
@@ -461,4 +460,22 @@ circle.selected {
 .files div dd {
     grid-column: 2;
     font-size: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    align-content: start;
+    gap: 0.2em;
+}
+
+.files div dt code,
+.files div dt small {
+    display: block;
+}
+
+.line {
+    display: flex;
+    width: 0.5em;
+    aspect-ratio: 1;
+    background: steelblue;
+    border-radius: 50%;
 }

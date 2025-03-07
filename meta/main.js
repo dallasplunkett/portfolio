@@ -307,6 +307,8 @@ function updateFileVisualization() {
             lines
         }));
 
+    files = d3.sort(files, d => -d.lines.length);
+
     d3.select('.files')
         .selectAll('div')
         .remove();
@@ -318,9 +320,18 @@ function updateFileVisualization() {
         .append('div');
 
     filesContainer.append('dt')
-        .append('code')
-        .text(d => d.name);
+        .html((d) => {
+            return `
+            <code>${d.name}</code>
+            <small>${d.lines.length} lines</small>
+            `;
+        });
 
-    filesContainer.append('dd')
-        .text(d => d.lines.length + ' lines');
+    let dd = filesContainer.append('dd');
+
+    dd.selectAll('div')
+        .data((d) => d.lines)
+        .enter()
+        .append('div')
+        .attr('class', 'line');
 }
