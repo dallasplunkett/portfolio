@@ -260,8 +260,8 @@ function loadData() {
             processCommits();
             commits.sort((a, b) => a.datetime - b.datetime);
             displayStats();
-            updateScatterplot(commits);
-            displayCommitFiles(commits);
+            updateScatterplot([]);
+            displayCommitFiles([]);
             renderAllCommits();
             setupScrollTimeFilter();
         });
@@ -315,18 +315,16 @@ function renderAllCommits() {
         .append("div")
         .attr("class", "item")
         .html((commit, i) => {
+            const fileCount = d3.rollups(commit.lines, (v) => v.length, (d) => d.file).length;
             return `
             <p>
-                On ${commit.datetime.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })},
-                I made 
-                <a href="${commit.url}" target="_blank">
-                ${i > 0 ? 'another commit' : 'my first commit, and it was glorious'}
-                </a>.
-                I edited ${commit.totalLines} lines across
-                ${d3.rollups(commit.lines, (v) => v.length, (d) => d.file).length} files.
-                Then I looked over all I had made, and I saw that it was very good.
-            </p>
-            `;
+              On <em>
+              ${commit.datetime.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}
+              </em>, a <a href="${commit.url}" target="_blank">commit</a>
+              was created. This update changed <em>${commit.totalLines}</em>
+              lines across <em>${fileCount}</em> files. After looking over all I had made,
+              I was happy.
+            </p>`;
         });
 }
 

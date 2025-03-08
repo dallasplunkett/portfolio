@@ -38,6 +38,7 @@ body {
     max-width: 80ch;
     width: 100%;
     padding: var(--space);
+    position: relative;
 }
 
 /* navigation */
@@ -254,7 +255,7 @@ html {
 }
 
 .color-scheme {
-    position: absolute;
+    position: fixed;
     top: 1em;
     right: 1em;
     z-index: 1000;
@@ -442,23 +443,15 @@ circle.selected {
 /* files */
 
 .files {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-}
-
-.files>div {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
+    display: flex;
+    flex-flow: column;
 }
 
 .files div dt {
-    grid-column: 1;
     font-size: 1em;
 }
 
 .files div dd {
-    grid-column: 2;
     font-size: 1em;
     display: flex;
     flex-wrap: wrap;
@@ -482,9 +475,17 @@ circle.selected {
 /* for the story */
 
 #scrollytelling {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+    right: 50%;
+    margin-right: -50vw;
+
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1.5fr;
     gap: 1rem;
+    padding: 0 1rem;
 }
 
 .scatter-section {
@@ -492,15 +493,26 @@ circle.selected {
     flex-direction: column;
 }
 
+.scatter-section h2 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
 #selection-count {
     margin-left: auto;
 }
 
 #scroll-container {
-    height: 60vh;
+    height: 120vh;
     overflow-y: auto;
 }
 
 .item {
-    height: 160px;
+    height: fit-content;
+    padding: 0.1em;
+}
+
+.story-title {
+    text-align: center;
 }

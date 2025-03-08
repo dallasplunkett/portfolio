@@ -45,7 +45,7 @@ for (let p of pages) {
 
 // CONSTRUCT THEME PICKER
 
-document.querySelector('.container').insertAdjacentHTML(
+document.body.querySelector('.container').insertAdjacentHTML(
     'afterbegin',
     `<label class="color-scheme">Theme:
         <select>
